@@ -1,3 +1,45 @@
+//var moment = require('moment');
+
+//mongo db appointmentsSearchQueries.js |tail +5 >testBorrar2.txt
+// con el tail+5 evito todo el head que sale y me queda el objeto limpio.
+
+//	mongoexport--db main--collection appointments --type csv --query '{"speciality":"psychiatry"}' --fields _id, medic, status--out  borrarEsto.csv
+
+//db.appointments.aggregate({$match:{duration:35}},{$group:{_id:"$service",count:{$sum:1}}})
+
+// db.appointments.aggregate([{$match:{date: { $gt: new Date('2019-03-07T00:00:00Z'), $lt: new Date('2019-03-12T00:00:00Z')}}},{$group:{_id:"$date",count:{$sum:1}}}])
+
+// db.appointments.aggregate({$match:{date: { $gt: new Date('2019-03-07T00:00:00Z'), $lt: new Date('2019-03-10T00:00:00Z')},medic:ObjectId("5c801f9e140e48034aa03bf4")}},{$group:{_id:"$date",count:{$sum:1}}})
+
+//db.appointments.aggregate({$match:{medic: ObjectId("5c801f9e140e48034aa03bad")}})
+
+//db.appointments.aggregate([{ $match: { medic: ObjectId('5c801f9e140e48034aa03bad') } },{$group: {_id: '$status',count:{$sum:1}}}]);
+
+/* db.appointments.aggregate([
+	{
+		$project: {
+			date: { $dayOfYear: '$date' },
+			medic: 1,
+			status: 1,
+			speciality: 1,
+			service: 1,
+			modality: 1
+		}
+	},
+	{
+		$match: {
+			date: { $gt: 30, $lt: 200 }
+		}
+	},
+	{
+		$group: {
+			_id: '$date',
+			count: { $sum: 1 }
+		}
+	}
+]);
+ */
+
 /**
  * 1) Busqueda por profesionales: profesional XY turnos/semana conf pend
  * 2) Busqueda por especialidad : especialidad XY turnos/semana conf pend
@@ -7,6 +49,15 @@
 
 //week, service, speciality, prof, status
 //var query1 = {$and:[{"status":status},{"speciality":speciality}]};
+
+// console.log('moment 1 = ', moment().format('YYYY-MM-DD'));
+// console.log('moment 1 = ', moment().format('DD-MM-YYYY'));
+// console.log('moment 1 = ', moment().format('dddd'));
+
+//lo que sigue abajo en mongo no anda
+// print('moment 1 = ', moment().format('YYYY-MM-DD'));
+// print('moment 1 = ', moment().format('DD-MM-YYYY'));
+// print('moment 1 = ', moment().format('dddd'));
 
 printResults = function(resultToPrint) {
 	print('---------------------------------------------------------------------------------');
@@ -31,9 +82,10 @@ var searchQuery = {
 		searchQuery.service = null;
 	}
 };
+var startWindow = null;
+var endWindow = null;
 
-if (startWindow && endWindow) {
-
+if (startWindow != null && endWindow != null) {
 	var searchQuery = {
 		status: null,
 		speciality: null,
@@ -277,9 +329,5 @@ const generalSearch = () => {
 	return mainSearchResults;
 };
 
-
-var testing = generalSearch();
-printjson(testing);
-
-
-
+//var testing = generalSearch();
+//printjson(testing);
